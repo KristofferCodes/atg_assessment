@@ -8,12 +8,18 @@ class UserModel {
   final String? id;
   final String? email;
   final String? name;
+  @JsonKey(name: 'first_name')
+  final String? firstName;
+  @JsonKey(name: 'last_name')
+  final String? lastName;
   final String? token;
 
   const UserModel({
     this.id,
     this.email,
     this.name,
+    this.firstName,
+    this.lastName,
     this.token,
   });
 
@@ -25,7 +31,11 @@ class UserModel {
   UserEntity toEntity() => UserEntity(
         id: id ?? '',
         email: email ?? '',
-        name: name ?? '',
+        firstName: firstName?.trim() ?? name?.split(' ').first ?? '',
+        lastName: lastName?.trim() ??
+            (name != null && name!.contains(' ')
+                ? name!.split(' ').skip(1).join(' ')
+                : ''),
         token: token ?? '',
       );
 }

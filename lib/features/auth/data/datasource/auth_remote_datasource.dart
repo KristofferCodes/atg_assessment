@@ -33,10 +33,10 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Try to extract token — adapt to actual API response shape
-        final token = data['token'] ??
-            data['access_token'] ??
-            data['data']?['token'] ??
-            data['data']?['access_token'] ?? '';
+        final token = data['access_token'] ??
+    data['token'] ??
+    data['data']?['access_token'] ??
+    data['data']?['token'] ?? '';
 
         final user = data['user'] ?? data['data']?['user'] ?? data['data'] ?? {};
 
@@ -44,6 +44,8 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
           id: user['id']?.toString() ?? '',
           email: user['email']?.toString() ?? email,
           name: user['name']?.toString() ?? '',
+          firstName: user['first_name']?.toString() ?? '',
+          lastName: user['last_name']?.toString() ?? '',
           token: token?.toString() ?? '',
         );
       } else if (response.statusCode == 401 || response.statusCode == 422) {

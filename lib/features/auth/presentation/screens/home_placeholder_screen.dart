@@ -177,10 +177,8 @@ class _HomePlaceholderScreenState
 
     // Get user name from login state if available
     final loginState = ref.watch(loginControllerProvider);
-    final userName = loginState.user?.name;
-    final displayName = (userName != null && userName.trim().isNotEmpty)
-        ? userName.trim().split(' ').first
-        : 'Chief';
+    final displayName = loginState.user?.displayName ?? 'Chief';
+    final fullName = loginState.user?.fullName ?? '';
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -320,15 +318,26 @@ class _HomePlaceholderScreenState
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 8),
+                        fullName.isEmpty || fullName == "" ? 
                         Text(
-                          'Welcome back, chief',
+                          'Welcome back, $displayName 👑',
                           style: AppTextStyles.displayMedium.copyWith(
                             color: textColor,
                             fontWeight: FontWeight.w700,
                             height: 1.2,
                           ),
                           textAlign: TextAlign.center,
+                        ) :
+                        Text(
+                        'Welcome back, $fullName 👑',
+                        style: AppTextStyles.displayMedium.copyWith(
+                          color: textColor,
+                          fontWeight: FontWeight.w700,
+                          height: 1.2,
                         ),
+                        textAlign: TextAlign.center,
+                      ),
+                      
                       ],
                     ),
                   ),
@@ -474,7 +483,7 @@ class _InfoCard extends StatelessWidget {
   }
 }
 
-// Particle painter
+// ── Particle painterZZ\
 
 class _Particle {
   final double x;
